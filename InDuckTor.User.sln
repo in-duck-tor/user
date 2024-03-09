@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.WebApi", "InDuckTor.User\InDuckTor.User.WebApi.csproj", "{17B84962-7474-42DB-8F62-270F569EA360}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.Domain", "InDuckTor.User.Domain\InDuckTor.User.Domain.csproj", "{11E6E14B-1009-4762-98D5-202E4DF97019}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17B84962-7474-42DB-8F62-270F569EA360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17B84962-7474-42DB-8F62-270F569EA360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17B84962-7474-42DB-8F62-270F569EA360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17B84962-7474-42DB-8F62-270F569EA360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E6E14B-1009-4762-98D5-202E4DF97019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E6E14B-1009-4762-98D5-202E4DF97019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E6E14B-1009-4762-98D5-202E4DF97019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E6E14B-1009-4762-98D5-202E4DF97019}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D820FBA8-83DC-4300-A3BD-E8F202AC80C5}
+	EndGlobalSection
+EndGlobal
