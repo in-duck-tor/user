@@ -16,4 +16,8 @@
     <ProjectReference Include="..\InDuckTor.User.Infrastructure\InDuckTor.User.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Новая папка\" />
+  </ItemGroup>
+
 </Project>

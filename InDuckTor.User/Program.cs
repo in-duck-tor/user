@@ -13,7 +13,7 @@ using System.Xml.XPath;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-builder.Services.AddScoped<IClientService, ClientService>();
+builder.Services.AddStrategiesFrom(Assembly.GetAssembly(typeof(ICreateClient))!);
 
 builder.Services.AddInDuckTorAuthentication(builder.Configuration.GetSection(nameof(JwtSettings)));
 builder.Services.AddAuthorization();
@@ -22,7 +22,15 @@ builder.Services.AddInDuckTorSecurity();
 builder.Services.AddUsersDbContext(configuration);
 
 //builder.Services.AddProblemDetails()
-//    .ConfigureJsonConverters();
+//    .ConfigureJsonConverters();     
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policyBuilder =>
+    {
+        policyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -46,6 +54,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

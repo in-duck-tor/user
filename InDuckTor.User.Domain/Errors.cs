@@ -40,5 +40,10 @@ namespace InDuckTor.User.Domain
         {
             public class LoginExists(string login) : Errors.Conflict($"Пользователь с логином {login} уже существует в системе");
         }
+
+        public static class Permission
+        {
+            public class NotFound(string key) : Errors.NotFound($"Разрешение с ключом ${key} не существует");
+        }
     }
 }

@@ -26,9 +26,10 @@ namespace InDuckTor.User.Features.Client
 
             var client = new Domain.Client
             {
-
-                Login = request.Login,
-                AccountType = Domain.AccountType.Client,
+                User = new Domain.User {
+                    Login = request.Login,
+                    AccountType = Domain.AccountType.Client,
+                },
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,

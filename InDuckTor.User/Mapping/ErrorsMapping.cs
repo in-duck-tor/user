@@ -7,8 +7,12 @@ namespace InDuckTor.User.WebApi.Mapping
     public static class ErrorsMapping
     {
         public static Results<TSuccess, IResult> MapToHttpResult<TSuccess, T>(this Result<T> result, Func<T, TSuccess> onSuccess)
-           where TSuccess : IResult
-           => result.IsSuccess ? (Results<TSuccess, IResult>)onSuccess(result.Value) : (Results<TSuccess, IResult>)result.MapToErrorHttpResult();
+       where TSuccess : IResult
+       => result.IsSuccess ? (Results<TSuccess, IResult>)onSuccess(result.Value) : (Results<TSuccess, IResult>)result.MapToErrorHttpResult();
+
+        public static Results<TSuccess, IResult> MapToHttpResult<TSuccess>(this Result result, Func<TSuccess> onSuccess)
+            where TSuccess : IResult
+            => result.IsSuccess ? (Results<TSuccess, IResult>)onSuccess() : (Results<TSuccess, IResult>)result.MapToErrorHttpResult();
 
         public static IResult MapToErrorHttpResult(this IResultBase result)
         {
