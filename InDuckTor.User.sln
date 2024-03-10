@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.WebApi", "InDuckTor.User\InDuckTor.User.WebApi.csproj", "{17B84962-7474-42DB-8F62-270F569EA360}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InDuckTor.User.WebApi", "InDuckTor.User\InDuckTor.User.WebApi.csproj", "{17B84962-7474-42DB-8F62-270F569EA360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.Domain", "InDuckTor.User.Domain\InDuckTor.User.Domain.csproj", "{11E6E14B-1009-4762-98D5-202E4DF97019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InDuckTor.User.Domain", "InDuckTor.User.Domain\InDuckTor.User.Domain.csproj", "{11E6E14B-1009-4762-98D5-202E4DF97019}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.Infrastructure", "InDuckTor.User.Infrastructure\InDuckTor.User.Infrastructure.csproj", "{A60FC6A9-328B-4290-B998-44F18C1231FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{11E6E14B-1009-4762-98D5-202E4DF97019}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E6E14B-1009-4762-98D5-202E4DF97019}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E6E14B-1009-4762-98D5-202E4DF97019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,6 @@
+@InDuckTor.User_HostAddress = http://localhost:5189
+
+GET {{InDuckTor.User_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

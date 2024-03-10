@@ -1,7 +1,6 @@
 ﻿namespace InDuckTor.User.Domain
 {
-    public class Class1
+    public class Client : BaseUser
     {
-
     }
 }
