@@ -6,16 +6,6 @@ namespace InDuckTor.User.Domain
     {
         public long Id { get; init; }
 
-        /// <summary>
-        /// Дата регистрации
-        /// </summary>
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        /// <summary>
-        /// Дата блокировки учётной записи
-        /// </summary>
-        public DateTime? InactiveAt { get; init; }
-
         [EmailAddress]
         public string? Email { get; init; }
 
@@ -27,6 +17,6 @@ namespace InDuckTor.User.Domain
 
         public DateTime? BirthDate { get; init; }
 
-        public virtual User User { get; init; }
+        public virtual User User { get; set; }
     }
 }

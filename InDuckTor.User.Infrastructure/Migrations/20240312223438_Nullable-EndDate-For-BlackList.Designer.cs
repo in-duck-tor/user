@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InDuckTor.User.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InDuckTor.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240312223438_Nullable-EndDate-For-BlackList")]
+    partial class NullableEndDateForBlackList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,8 +64,6 @@ namespace InDuckTor.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("BlackList", "user");
                 });
 
@@ -74,12 +75,18 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("InactiveAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -101,12 +108,18 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Email")
                         .HasColumnType("text");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("InactiveAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -149,12 +162,6 @@ namespace InDuckTor.User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime?>("InactiveAt")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("text");
@@ -182,15 +189,6 @@ namespace InDuckTor.User.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InDuckTor.User.Domain.BlackList", b =>
-                {
-                    b.HasOne("InDuckTor.User.Domain.User", null)
-                        .WithMany("Bans")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("InDuckTor.User.Domain.Client", b =>
                 {
                     b.HasOne("InDuckTor.User.Domain.User", "User")
@@ -211,11 +209,6 @@ namespace InDuckTor.User.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("InDuckTor.User.Domain.User", b =>
-                {
-                    b.Navigation("Bans");
                 });
 #pragma warning restore 612, 618
         }

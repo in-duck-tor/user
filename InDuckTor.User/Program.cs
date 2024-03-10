@@ -2,28 +2,54 @@ using InDuckTor.Shared.Configuration;
 using InDuckTor.Shared.Security;
 using InDuckTor.Shared.Security.Jwt;
 using InDuckTor.Shared.Strategies;
-using InDuckTor.User.Features.Client;
 using InDuckTor.User.Features.Client.CreateClient;
 using InDuckTor.User.Infrastructure.Database;
 using InDuckTor.User.WebApi.Endpoints;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.XPath;
+using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+using System.Text.Json.Serialization;
+using InDuckTor.User.Features;
+using InDuckTor.User.WebApi.Middlewares;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 builder.Services.AddStrategiesFrom(Assembly.GetAssembly(typeof(ICreateClient))!);
 
+// MediatR
+foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+{
+    builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+}
+
+// Mapster
+builder.Services.RegisterMapsterConfiguration();
+
+// FluentValidation
+builder.Services.RegisterValidatorConfiguration();
+builder.Services.AddValidatorsFromAssemblyContaining(typeof(BanUserValidator));
+
+// EnumConverter
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
+// Authorization
 builder.Services.AddInDuckTorAuthentication(builder.Configuration.GetSection(nameof(JwtSettings)));
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("account_type", "service"));
+});
 builder.Services.AddInDuckTorSecurity();
 
-builder.Services.AddUsersDbContext(configuration);
+// Database
+builder.Services.AddUsersDbContext(configuration);   
 
-//builder.Services.AddProblemDetails()
-//    .ConfigureJsonConverters();     
-
+// Cors
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policyBuilder =>
@@ -33,6 +59,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
+
+// Swagger
 builder.Services.AddSwaggerGen(options =>
 {
     options.ConfigureJwtAuth();
@@ -46,6 +74,7 @@ builder.Services.AddSwaggerGen(options =>
             options.IncludeXmlComments(() => new XPathDocument(doc.CreateReader()), true);
         };
 });
+builder.Services.AddFluentValidationRulesToSwagger();
 
 var app = builder.Build();
 
@@ -55,15 +84,23 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
 app.UseCors();
 
+app.UseExceptionHandler(new ExceptionHandlerOptions
+{
+    ExceptionHandler = new ExceptionMiddleware().Invoke
+}
+  );
 
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseInDuckTorSecurity();
 
+// Endpoints
 app.AddClientEndpoints()
-    .AddEmployeeEndpoints();
+   .AddEmployeeEndpoints()
+   .AddBlackListEndpoints();
 
 app.Run();

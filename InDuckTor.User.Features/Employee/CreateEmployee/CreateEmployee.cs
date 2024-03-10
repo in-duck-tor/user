@@ -1,56 +1,41 @@
-﻿using FluentResults;
-using InDuckTor.Shared.Security.Context;
+﻿using InDuckTor.Shared.Security.Context;
 using InDuckTor.User.Domain;
 using InDuckTor.User.Infrastructure.Database;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
-using System.Security;
 
 namespace InDuckTor.User.Features.Employee.CreateEmployee
 {
     public class CreateEmployee : ICreateEmployee
     {
         private readonly UsersDbContext _context;
-        private readonly ISecurityContext _securityContext;
 
-        public CreateEmployee(UsersDbContext context, ISecurityContext securityContext)
+        public CreateEmployee(UsersDbContext context)
         {
             _context = context;
-            _securityContext = securityContext;
         }
 
-        public async Task<Result<CreateEmployeeResult>> Execute(CreateEmployeeRequest input, CancellationToken ct)
+        public async Task<CreateEmployeeResult> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.Where(u => u.Login == input.Login).FirstOrDefaultAsync(ct);
-            if (user is not null) return new Errors.User.LoginExists(input.Login);
+            var req = request.EmployeeRequest;
 
-            var permissions = new List<Permission>();
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Login == req.Login, cancellationToken);
+            if (user is not null) throw new Errors.User.LoginExists(user.Login);
 
-            foreach (var permissionKey in input.Permissions)
+            var permissions = new List<Domain.Permission>();
+            foreach (var permissionKey in req.Permissions)
             {
-                var permission = await _context.Permissions.Where(p => p.Key == permissionKey).FirstOrDefaultAsync(ct);
-                if (permission is null) return new Errors.Permission.NotFound(permissionKey);
+                var permission = await _context.Permissions.FirstOrDefaultAsync(p => p.Key == permissionKey, cancellationToken) ??
+                    throw new Errors.Permission.NotFound(permissionKey);
+
                 permissions.Add(permission);
             }
 
-            var employee = new Domain.Employee
-            {
-
-                User = new Domain.User
-                {
-                    Login = input.Login,
-                    AccountType = Domain.AccountType.Client,
-                },
-                Email = input.Email,
-                FirstName = input.FirstName,
-                LastName = input.LastName,
-                MiddleName = input.MiddleName,
-                BirthDate = input.BirthDate,
-                Position  = input.Position,
-                Permissions = permissions,
-            };
+            var employee = req.Adapt<Domain.Employee>();
+            employee.Permissions = permissions;
 
             _context.Add(employee);
-            await _context.SaveChangesAsync(ct);
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new CreateEmployeeResult(employee.Id);
         }

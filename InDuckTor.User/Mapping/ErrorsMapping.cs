@@ -22,7 +22,7 @@ namespace InDuckTor.User.WebApi.Mapping
                 Errors.Forbidden => TypedResults.Problem(statusCode: 403, title: error.Message),
                 Errors.NotFound => TypedResults.NotFound(error.Message),
                 Errors.Conflict => TypedResults.Conflict(error.Message),
-                Errors.InvalidInput invalidInput => TypedResults.ValidationProblem(title: error.Message, errors: invalidInput.ProduceFieldsErrors()),
+                //Errors.InvalidInput invalidInput => TypedResults.ValidationProblem(title: error.Message, errors: invalidInput.ProduceFieldsErrors()),
                 _ => TypedResults.Problem(result.ToString())
             };
         }

@@ -1,22 +1,8 @@
-﻿
-
-using System.ComponentModel.DataAnnotations;
-
-namespace InDuckTor.User.Domain
+﻿namespace InDuckTor.User.Domain
 {
     public class Employee 
     {
         public long Id { get; init; }
-
-        /// <summary>
-        /// Дата регистрации
-        /// </summary>
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        /// <summary>
-        /// Дата блокировки учётной записи
-        /// </summary>
-        public DateTime? InactiveAt { get; init; }
 
         public string? Email { get; init; }
 
@@ -38,6 +24,6 @@ namespace InDuckTor.User.Domain
         /// </summary>
         public List<Permission> Permissions { get; set; } = new();
 
-        public virtual User User {  get; init; }
+        public virtual User User {  get; set; }
     }
 }

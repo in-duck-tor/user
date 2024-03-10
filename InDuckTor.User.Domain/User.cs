@@ -10,12 +10,24 @@ namespace InDuckTor.User.Domain
         public required string Login { get; init; }
 
         public required AccountType AccountType { get; init; }
+
+        /// <summary>
+        /// Дата регистрации
+        /// </summary>
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// Дата блокировки учётной записи
+        /// </summary>
+        public DateTime? InactiveAt { get; init; }
+
+        public List<BlackList> Bans { get; set; } = new();
     }
 
     public enum AccountType
     {
-        [EnumMember(Value = "employee")] Employee,
+        Employee,
 
-        [EnumMember(Value = "client")] Client,
+        Client,
     }
 }
