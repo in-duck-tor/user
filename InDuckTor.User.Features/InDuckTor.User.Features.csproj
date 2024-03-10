@@ -8,6 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="3.15.2" />
+    <PackageReference Include="InDuckTor.Shared" Version="1.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\InDuckTor.User.Domain\InDuckTor.User.Domain.csproj" />
+    <ProjectReference Include="..\InDuckTor.User.Infrastructure\InDuckTor.User.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

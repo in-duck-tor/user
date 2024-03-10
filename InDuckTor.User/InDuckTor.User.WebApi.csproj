@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InDuckTor.User.Features\InDuckTor.User.Features.csproj" />
     <ProjectReference Include="..\InDuckTor.User.Infrastructure\InDuckTor.User.Infrastructure.csproj" />
   </ItemGroup>
 

@@ -1,13 +1,19 @@
 using InDuckTor.Shared.Configuration;
 using InDuckTor.Shared.Security;
 using InDuckTor.Shared.Security.Jwt;
+using InDuckTor.Shared.Strategies;
+using InDuckTor.User.Features.Client;
+using InDuckTor.User.Features.Client.CreateClient;
 using InDuckTor.User.Infrastructure.Database;
 using InDuckTor.User.WebApi.Endpoints;
+using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.XPath;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
+
+builder.Services.AddScoped<IClientService, ClientService>();
 
 builder.Services.AddInDuckTorAuthentication(builder.Configuration.GetSection(nameof(JwtSettings)));
 builder.Services.AddAuthorization();

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using FluentResults;
+using InDuckTor.Shared.Strategies;
+using InDuckTor.User.Features.Client.CreateClient;
+using InDuckTor.User.WebApi.Mapping;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InDuckTor.User.WebApi.Endpoints
@@ -8,7 +12,7 @@ namespace InDuckTor.User.WebApi.Endpoints
         public static IEndpointRouteBuilder AddClientEndpoints(this IEndpointRouteBuilder builder)
         {
             var groupBuilder = builder.MapGroup("/api/v1")
-                .WithTags("Clients")
+                .WithTags("Client")
                 .WithOpenApi()
                 .RequireAuthorization();
 
@@ -26,9 +30,12 @@ namespace InDuckTor.User.WebApi.Endpoints
             throw new NotImplementedException();
         }
 
-        internal static Results<NoContent, ForbidHttpResult> CreateClient()
+        internal static async Task<Results<Ok<CreateClientResult>, IResult>> CreateClient([FromBody] CreateClientRequest request,
+        [FromServices] IExecutor<ICreateClient, CreateClientRequest, Result<CreateClientResult>> createClient,
+        CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = await createClient.Execute(request, cancellationToken);
+            return result.MapToHttpResult(TypedResults.Ok);
         }
     }
 }

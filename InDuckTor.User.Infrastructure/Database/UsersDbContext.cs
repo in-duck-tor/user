@@ -23,8 +23,6 @@ namespace InDuckTor.User.Infrastructure.Database
         public virtual DbSet<Permission> Permissions { get; } = null!;
         public virtual DbSet<BlackList> BlackList { get; } = null!;
 
-        public const string UserPersonalCodeSequenceName = "user_personal_code_seq";
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Permission>().HasKey(p => p.Key);
@@ -39,7 +37,6 @@ namespace InDuckTor.User.Infrastructure.Database
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(Schema);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-            modelBuilder.HasSequence<long>(UserPersonalCodeSequenceName);
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

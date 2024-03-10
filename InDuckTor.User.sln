@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InDuckTor.User.Domain", "In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.Infrastructure", "InDuckTor.User.Infrastructure\InDuckTor.User.Infrastructure.csproj", "{A60FC6A9-328B-4290-B998-44F18C1231FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InDuckTor.User.Features", "InDuckTor.User.Features\InDuckTor.User.Features.csproj", "{7A4BB561-EF3D-484F-8556-FAAAFE5744BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A60FC6A9-328B-4290-B998-44F18C1231FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4BB561-EF3D-484F-8556-FAAAFE5744BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4BB561-EF3D-484F-8556-FAAAFE5744BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4BB561-EF3D-484F-8556-FAAAFE5744BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4BB561-EF3D-484F-8556-FAAAFE5744BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
