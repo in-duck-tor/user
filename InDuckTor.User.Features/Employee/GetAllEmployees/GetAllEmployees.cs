@@ -18,15 +18,15 @@ namespace InDuckTor.User.Features.Employee.GetAllEmployees
         {
             var searchParams = request.SearchParams;
 
-            var employees = _context.Employees.Include(e => e.User).ThenInclude(u => u.Bans).AsQueryable();
+            var employees = _context.Users.Include(u => u.Employee).Where(u => u.Employee != null).Include(u => u.Bans).AsQueryable();
 
             switch (searchParams.Status)
             {
                 case (EmployeeStatus.Active):
-                    employees = employees.Where(e => e.User.InactiveAt == null);
+                    employees = employees.Where(e => e.InactiveAt == null);
                     break;
                 case (EmployeeStatus.Inactive):
-                    employees = employees.Where(e => e.User.InactiveAt != null);
+                    employees = employees.Where(e => e.InactiveAt != null);
                     break;
             }
 

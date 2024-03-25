@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InDuckTor.User.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InDuckTor.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240402202913_Many-To-Many-Permissions")]
+    partial class ManyToManyPermissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,9 +101,8 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("Key");
 
@@ -118,11 +120,17 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long?>("ClientId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<long?>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -143,6 +151,10 @@ namespace InDuckTor.User.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("Login")
                         .IsUnique();
@@ -177,7 +189,7 @@ namespace InDuckTor.User.Infrastructure.Migrations
             modelBuilder.Entity("InDuckTor.User.Domain.Client", b =>
                 {
                     b.HasOne("InDuckTor.User.Domain.User", "User")
-                        .WithOne("Client")
+                        .WithOne()
                         .HasForeignKey("InDuckTor.User.Domain.Client", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -188,7 +200,7 @@ namespace InDuckTor.User.Infrastructure.Migrations
             modelBuilder.Entity("InDuckTor.User.Domain.Employee", b =>
                 {
                     b.HasOne("InDuckTor.User.Domain.User", "User")
-                        .WithOne("Employee")
+                        .WithOne()
                         .HasForeignKey("InDuckTor.User.Domain.Employee", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -198,11 +210,22 @@ namespace InDuckTor.User.Infrastructure.Migrations
 
             modelBuilder.Entity("InDuckTor.User.Domain.User", b =>
                 {
-                    b.Navigation("Bans");
+                    b.HasOne("InDuckTor.User.Domain.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("InDuckTor.User.Domain.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Client");
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("InDuckTor.User.Domain.User", b =>
+                {
+                    b.Navigation("Bans");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,14 +10,13 @@ namespace InDuckTor.User.Features.Client
     {
         public static void RegisterMapsterConfiguration()
         {
-            TypeAdapterConfig<CreateClientRequest, Domain.Client>
+            TypeAdapterConfig<CreateClientRequest, Domain.User>
                .NewConfig()
-               .Map(dest => dest.User, src => new Domain.User { Login = src.Login, AccountType = AccountType.Client });
+               .Map(dest => dest.Client, src => new Domain.Client());
 
-            TypeAdapterConfig<Domain.Client, ShortClientDto>
+            TypeAdapterConfig<Domain.User, ShortClientDto>
                .NewConfig()
-               .Map(dest => dest.Login, src => src.User.Login)
-               .Map(dest => dest.IsBlocked, src => src.User.Bans.SingleOrDefault((Specifications.BlackList.ActiveBanAsFunc(src.Id))) != null); ;
+               .Map(dest => dest.IsBlocked, src => src.Bans.SingleOrDefault((Specifications.BlackList.ActiveBanAsFunc(src.Id))) != null);
         }
     }
 }

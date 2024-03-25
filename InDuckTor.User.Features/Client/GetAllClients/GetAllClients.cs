@@ -1,6 +1,4 @@
-﻿using InDuckTor.Shared.Security.Context;
-using InDuckTor.User.Features.Employee.GetAllEmployees;
-using InDuckTor.User.Infrastructure.Database;
+﻿using InDuckTor.User.Infrastructure.Database;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,15 +17,15 @@ namespace InDuckTor.User.Features.Client.GetAllClients
         {
             var searchParams = request.SearchParams;
 
-            var clients = _context.Clients.Include(e => e.User).ThenInclude(u => u.Bans).AsQueryable();
+            var clients = _context.Users.Include(u => u.Client).Where(u => u.Client != null).Include(u => u.Bans).AsQueryable();
 
             switch (searchParams.Status)
             {
                 case (ClientStatus.Active):
-                    clients = clients.Where(e => e.User.InactiveAt == null);
+                    clients = clients.Where(e => e.InactiveAt == null);
                     break;
                 case (ClientStatus.Inactive):
-                    clients = clients.Where(e => e.User.InactiveAt != null);
+                    clients = clients.Where(e => e.InactiveAt != null);
                     break;
             }
 

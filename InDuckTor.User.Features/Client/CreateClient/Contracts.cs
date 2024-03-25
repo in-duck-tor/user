@@ -3,7 +3,7 @@ using MediatR;
 
 namespace InDuckTor.User.Features.Client.CreateClient
 {
-    public record CreateClientRequest(string Login, string? Email, string FirstName, string LastName, string? MiddleName, DateTime? BirthDate);
+    public record CreateClientRequest(string Login, string Password, string? Email, string FirstName, string LastName, string? MiddleName, DateTime? BirthDate);
     public record CreateClientResult(long Id);
     public record CreateClientCommand(CreateClientRequest ClientRequest) : IRequest<CreateClientResult>;
 
@@ -17,6 +17,7 @@ namespace InDuckTor.User.Features.Client.CreateClient
             RuleFor(r => r.LastName).NotEmpty();
             RuleFor(r => r.Email).EmailAddress();
             RuleFor(r => r.Login).NotEmpty();
+            RuleFor(r => r.Password).MinimumLength(6);
         }
     }
 }

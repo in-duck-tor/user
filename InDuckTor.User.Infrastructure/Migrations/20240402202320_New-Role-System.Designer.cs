@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using InDuckTor.User.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InDuckTor.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    partial class UsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240402202320_New-Role-System")]
+    partial class NewRoleSystem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,21 +26,6 @@ namespace InDuckTor.User.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("EmployeePermission", b =>
-                {
-                    b.Property<long>("EmployeesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("PermissionsKey")
-                        .HasColumnType("text");
-
-                    b.HasKey("EmployeesId", "PermissionsKey");
-
-                    b.HasIndex("PermissionsKey");
-
-                    b.ToTable("EmployeePermission", "user");
-                });
 
             modelBuilder.Entity("InDuckTor.User.Domain.BlackList", b =>
                 {
@@ -98,11 +86,15 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<long?>("EmployeeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.HasKey("Key");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Permissions", "user");
                 });
@@ -118,11 +110,17 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Property<DateTime?>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<long?>("ClientId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
+
+                    b.Property<long?>("EmployeeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -144,25 +142,14 @@ namespace InDuckTor.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("EmployeeId");
+
                     b.HasIndex("Login")
                         .IsUnique();
 
                     b.ToTable("Users", "user");
-                });
-
-            modelBuilder.Entity("EmployeePermission", b =>
-                {
-                    b.HasOne("InDuckTor.User.Domain.Employee", null)
-                        .WithMany()
-                        .HasForeignKey("EmployeesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InDuckTor.User.Domain.Permission", null)
-                        .WithMany()
-                        .HasForeignKey("PermissionsKey")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("InDuckTor.User.Domain.BlackList", b =>
@@ -177,7 +164,7 @@ namespace InDuckTor.User.Infrastructure.Migrations
             modelBuilder.Entity("InDuckTor.User.Domain.Client", b =>
                 {
                     b.HasOne("InDuckTor.User.Domain.User", "User")
-                        .WithOne("Client")
+                        .WithOne()
                         .HasForeignKey("InDuckTor.User.Domain.Client", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -188,7 +175,7 @@ namespace InDuckTor.User.Infrastructure.Migrations
             modelBuilder.Entity("InDuckTor.User.Domain.Employee", b =>
                 {
                     b.HasOne("InDuckTor.User.Domain.User", "User")
-                        .WithOne("Employee")
+                        .WithOne()
                         .HasForeignKey("InDuckTor.User.Domain.Employee", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -196,13 +183,36 @@ namespace InDuckTor.User.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("InDuckTor.User.Domain.Permission", b =>
+                {
+                    b.HasOne("InDuckTor.User.Domain.Employee", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("EmployeeId");
+                });
+
             modelBuilder.Entity("InDuckTor.User.Domain.User", b =>
                 {
-                    b.Navigation("Bans");
+                    b.HasOne("InDuckTor.User.Domain.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+
+                    b.HasOne("InDuckTor.User.Domain.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Client");
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("InDuckTor.User.Domain.Employee", b =>
+                {
+                    b.Navigation("Permissions");
+                });
+
+            modelBuilder.Entity("InDuckTor.User.Domain.User", b =>
+                {
+                    b.Navigation("Bans");
                 });
 #pragma warning restore 612, 618
         }

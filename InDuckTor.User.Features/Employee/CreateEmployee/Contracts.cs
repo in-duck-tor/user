@@ -3,7 +3,7 @@ using MediatR;
 
 namespace InDuckTor.User.Features.Employee.CreateEmployee
 {
-    public record CreateEmployeeRequest(string Login, string? Email, string FirstName, string LastName, string? MiddleName, DateTime? BirthDate, List<string> Position, List<string> Permissions);
+    public record CreateEmployeeRequest(string Login, string Password, string? Email, string FirstName, string LastName, string? MiddleName, DateTime? BirthDate, List<string> Position, List<string> Permissions);
     public record CreateEmployeeResult(long Id);
     public record CreateEmployeeCommand(CreateEmployeeRequest EmployeeRequest) : IRequest<CreateEmployeeResult>;
 
@@ -16,6 +16,7 @@ namespace InDuckTor.User.Features.Employee.CreateEmployee
             RuleFor(r => r.LastName).NotEmpty();
             RuleFor(r => r.Email).EmailAddress();
             RuleFor(r => r.Login).NotEmpty();
+            RuleFor(r => r.Password).MinimumLength(6);
             RuleFor(r => r.Position).NotNull();
             RuleFor(r => r.Permissions).NotNull();
         }

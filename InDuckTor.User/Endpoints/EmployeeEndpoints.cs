@@ -62,8 +62,8 @@ namespace InDuckTor.User.WebApi.Endpoints
         [ProducesResponseType<IEnumerable<PermissionDto>>(200)]
         internal static async Task<IResult> GetEmployeePermissions([FromServices] IMediator mediator, CancellationToken cancellationToken)
         {
-            var result = await mediator.Send(new GetAllPermissionsQuery(), cancellationToken);
-            return Results.Ok(result);
+            var result = await mediator.Send(new GetAllPermissionsQuery(Role.Employee), cancellationToken);
+            return Results.Ok(result);   
         }
     }
 }

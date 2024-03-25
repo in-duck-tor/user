@@ -14,6 +14,6 @@ namespace InDuckTor.User.Features.Permission.GetAllPermissions
         }
 
         public async Task<IEnumerable<PermissionDto>> Handle(GetAllPermissionsQuery request, CancellationToken cancellationToken)
-        => (await _context.Permissions.ToListAsync(cancellationToken)).Adapt<List<PermissionDto>>();
+        => (await _context.Permissions.Where(p => p.Role == request.Role).ToListAsync(cancellationToken)).Adapt<List<PermissionDto>>();
     }
 }

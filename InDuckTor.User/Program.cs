@@ -7,12 +7,13 @@ using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
-using System.Text.Json.Serialization;
 using InDuckTor.User.Features;
 using InDuckTor.User.WebApi.Middlewares;
 using FluentValidation;
 using InDuckTor.Shared.Security.Http;
 using InDuckTor.Shared.Configuration.Swagger;
+using InDuckTor.User.Features.HttpClients;
+using InDuckTor.User.WebApi.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -33,21 +34,22 @@ builder.Services.RegisterValidatorConfiguration();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(BanUserValidator));
 
 // EnumConverter
-builder.Services.AddControllers().AddJsonOptions(options =>
-{
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-});
+builder.Services.AddProblemDetails()
+    .ConfigureJsonConverters();
 
 // Authorization
 builder.Services.AddInDuckTorAuthentication(builder.Configuration.GetSection(nameof(JwtSettings)));
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("account_type", "service"));
+    options.AddPolicy("EmployeeOnly", policy => policy.RequireClaim("roles", "employee"));
 });
 builder.Services.AddInDuckTorSecurity();
 
 // Database
-builder.Services.AddUsersDbContext(configuration);   
+builder.Services.AddUsersDbContext(configuration);
+
+// HTTP client
+builder.Services.AddHttpClient<IAuthHttpClient, AuthHttpClient>();
 
 // Cors
 builder.Services.AddCors(options =>
@@ -94,11 +96,12 @@ app.UseExceptionHandler(new ExceptionHandlerOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseInDuckTorSecurity();
+//app.UseInDuckTorSecurity();
 
 // Endpoints
 app.AddClientEndpoints()
    .AddEmployeeEndpoints()
-   .AddBlackListEndpoints();
+   .AddBlackListEndpoints()
+   .AddUserEndpoints();
 
 app.Run();

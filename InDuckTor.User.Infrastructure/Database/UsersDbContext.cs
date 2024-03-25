@@ -28,9 +28,9 @@ namespace InDuckTor.User.Infrastructure.Database
             modelBuilder.Entity<Permission>().HasKey(p => p.Key);
 
             modelBuilder
-                .Entity<Domain.User>()
-                .Property(u => u.AccountType)
-                .HasConversion(new EnumToStringConverter<AccountType>());
+                .Entity<Permission>()
+                .Property(u => u.Role)
+                .HasConversion(new EnumToStringConverter<Role>());
 
             modelBuilder
                .Entity<Domain.User>()
@@ -39,13 +39,15 @@ namespace InDuckTor.User.Infrastructure.Database
 
             modelBuilder.Entity<Employee>()
                 .HasOne(e => e.User)
-                .WithOne()
-                .HasForeignKey<Employee>(e => e.Id);
+                .WithOne(u => u.Employee)
+                .HasForeignKey<Employee>(e => e.Id)
+                .IsRequired();
 
             modelBuilder.Entity<Client>()
                 .HasOne(c => c.User)
-                .WithOne()
-                .HasForeignKey<Client>(c => c.Id);
+                .WithOne(u => u.Client)
+                .HasForeignKey<Client>(c => c.Id)
+                .IsRequired();
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasDefaultSchema(Schema);
