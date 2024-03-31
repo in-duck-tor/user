@@ -84,7 +84,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
 app.UseCors();
 
 app.UseExceptionHandler(new ExceptionHandlerOptions
@@ -95,7 +94,6 @@ app.UseExceptionHandler(new ExceptionHandlerOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseHttpsRedirection();
 app.UseInDuckTorSecurity();
 
 // Endpoints
