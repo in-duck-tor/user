@@ -10,7 +10,10 @@
     <PackageReference Include="FluentResults" Version="3.15.2" />
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
-    <PackageReference Include="InDuckTor.Shared" Version="1.1.4" />
+    <PackageReference Include="InDuckTor.Shared" Version="2.1.4" />
+    <PackageReference Include="InDuckTor.Shared.Configuration.Swagger" Version="2.0.0" />
+    <PackageReference Include="InDuckTor.Shared.Security.Http" Version="2.0.0" />
+    <PackageReference Include="InDuckTor.Shared.Security.Jwt" Version="2.0.2" />
     <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>

@@ -5,7 +5,7 @@ ARG GH_USERNAME
 ARG GH_TOKEN
 
 WORKDIR /app
-COPY --parents ./src/**/*.csproj .
+COPY --parents ./**/*.csproj .
 COPY ./*.sln .
 COPY ./nuget.config .
 RUN dotnet nuget update source github.in-duck-tor -u $GH_USERNAME -p $GH_TOKEN --store-password-in-clear-text

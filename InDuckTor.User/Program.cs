@@ -1,5 +1,3 @@
-using InDuckTor.Shared.Configuration;
-using InDuckTor.Shared.Security;
 using InDuckTor.Shared.Security.Jwt;
 using InDuckTor.Shared.Strategies;
 using InDuckTor.User.Features.Client.CreateClient;
@@ -13,6 +11,8 @@ using System.Text.Json.Serialization;
 using InDuckTor.User.Features;
 using InDuckTor.User.WebApi.Middlewares;
 using FluentValidation;
+using InDuckTor.Shared.Security.Http;
+using InDuckTor.Shared.Configuration.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
