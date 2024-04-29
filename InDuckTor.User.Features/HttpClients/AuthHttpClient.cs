@@ -11,12 +11,12 @@ namespace InDuckTor.User.Features.HttpClients
     }
     public class AuthHttpClient : IAuthHttpClient
     {
-        private HttpClient _client;
+        private readonly HttpClient _client;
 
         public AuthHttpClient(HttpClient client)
         {
             _client = client;
-            _client.BaseAddress = new Uri("http://89.19.214.8:6666");
+            // _client.BaseAddress = new Uri("http://89.19.214.8:6666");
         }
 
         [HttpPost]

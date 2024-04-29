@@ -49,7 +49,7 @@ builder.Services.AddInDuckTorSecurity();
 builder.Services.AddUsersDbContext(configuration);
 
 // HTTP client
-builder.Services.AddHttpClient<IAuthHttpClient, AuthHttpClient>();
+builder.Services.AddHttpClients(builder.Configuration);
 
 // Cors
 builder.Services.AddCors(options =>
