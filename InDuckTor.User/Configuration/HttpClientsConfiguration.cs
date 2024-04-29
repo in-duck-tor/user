@@ -21,4 +21,7 @@ public static class HttpClientsConfiguration
     }
 }
 
-internal record HttpClientConfiguration(Uri BaseUrl);
+internal class HttpClientConfiguration
+{
+    public Uri BaseUrl { get; set; }
+}
